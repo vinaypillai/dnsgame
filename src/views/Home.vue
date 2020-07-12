@@ -7,7 +7,15 @@
         </div>
         <div class="targetLoc"></div>
         <div class="nextPoint" @click="nextPoint()">Next Point</div>
+        <div class="optionsTitle">Available IPs</div>
+        <span class="optionWrapper">
+          <div class="optionButton"></div>
+          <div class="optionButton"></div>
+          <div class="optionButton"></div>
+        </span>
     </div>
+
+
 </template>
 
 <script>
@@ -18,7 +26,7 @@ export default {
     return {
         routeColor:"rgba(36, 66, 95, 1)",
         pointColor:'#933838',
-        numPoints:10,
+        numPoints:100,
         globe:null,
         points:[],
         routes:[],
@@ -50,9 +58,19 @@ export default {
         }else{
             this.currentIndex=0;
         }
+    },
+    refocus(){
+      this.globe.pointOfView({
+        lat: this.points[this.currentIndex].lat, 
+        lng: this.points[this.currentIndex].lng, 
+        altitude: 2.5
+      }, 1500);
     }
   },
   beforeMount(){
+    if(!this.$store.state.username){
+      this.$router.push({"path":"/"})
+    }
     for(let i=0;i<this.numPoints;i++){
         const lat = (Math.random() - 0.5) * 180;
         const lng = (Math.random() - 0.5) * 360;
@@ -83,6 +101,7 @@ export default {
   mounted(){
     console.log(this.points)
     this.globe(this.globeContainer);
+    this.refocus();
     window.addEventListener("resize", ()=>{
       this.globe.camera().aspect = window.innerWidth / window.innerHeight;
       this.globe.camera().updateProjectionMatrix();
@@ -99,14 +118,12 @@ export default {
     currentIndex:{
         immediate:true,
         handler(){
-            this.globe.pointOfView({
-                lat: this.points[this.currentIndex].lat, 
-                lng: this.points[this.currentIndex].lng, 
-                altitude: 2.5
-            }, 1500);
+            this.refocus();
         }
     }
   }
+
+
 }
 </script>
 <style type="text/css">
@@ -116,8 +133,11 @@ export default {
       left: 0;
       width: 200px;
       height: 75px;
-      background-color: rgba(255,255,255,1);
+      background-color: rgba(0,0,0,0.1);
       display: flex;
+      border: 2px solid #fff;
+      border-left: none;
+      border-top: none;
       box-shadow: 0 0 15px rgba(0,0,0,1);
       align-items: center;
       justify-content: center;
@@ -127,13 +147,53 @@ export default {
     .currentLocCommon{
       font-weight: 200;
       font-family: 'Montserrat', sans-serif;
-      color: #222;
+      color: #fff;
+      font-size: 20px;
     }
     .currentLocValue{
       font-weight: 600;
       font-family: 'Montserrat', sans-serif;
-      color: #222;
+      color: #fff;
       display: block;
+    }
+    .optionsTitle{
+      display: flex;
+      position: absolute;
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 200;
+      font-size: 40px;
+      color: #fff;
+      width: 300px;
+      height: 75px;
+      left: calc(50% - 100px);
+      text-shadow: 0 0 15px #000;
+      bottom: 50px;
+    }
+    .optionButton{
+      background-color: rgba(0,0,0,0.1);
+      border: 2px solid #fff;
+      border-radius: 2000px;
+      width: 150px;
+      height: 50px;
+      text-shadow: 0 0 15px rgba(0,0,0,1);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 200;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 20px;
+    }
+    .optionWrapper{
+      position: absolute;
+      width: 100%;
+      height: 50px;
+      bottom: 20px;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     /*Just for testing*/
     .nextPoint{
@@ -142,8 +202,15 @@ export default {
       right: 0;
       width: 200px;
       height: 75px;
-      background-color: rgba(255,255,255,1);
+      background-color: rgba(0,0,0,0.1);
       display: flex;
+      font-size: 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      color: #fff;
+      border: 2px solid #fff;
+      border-right: none;
+      border-top: none;
       box-shadow: 0 0 15px rgba(0,0,0,1);
       align-items: center;
       justify-content: center;
