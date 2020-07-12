@@ -1,17 +1,28 @@
 <template>
     <div class="wrapper">
-        <div class="launch-image" :style="{backgroundImage:`url(${require('@/assets/launchpage2.jpg')})`}">
+        <div class="launch-image1" :style="{backgroundImage:`url(${require('@/assets/launchpage2.jpg')})`}">
             <h1 class="title">DNS Dash</h1>
         </div>
-
-        <div class="text-wrapper">
-            <p class="explanation">The Internet is beautifully complex. Millions of nodes form a decentralized entity that allows us to access information from all over the world. But that got us thinking, what is life like as a packet of information traversing the internet? Here, at DNS Dash, you can experience what that is like. Race against friends to travel from a randomly generated IP to a specified target IP in the fastest time possible! Check out the leaderboards to see who the fastest packets are! Just enter a name below to start racing!</p>
+        <div id="particles-js">
+            <div class="text-wrapper">
+                <p class="explanation">The Internet is beautifully complex. Millions of nodes form a decentralized entity that allows us to access information from all over the world. But that got us thinking, what is life like as a packet of information traversing the internet? Here, at DNS Dash, you can experience what that is like. Race against friends to travel from a randomly generated IP to a specified target IP in the fastest time possible! Check out the leaderboards to see who the fastest packets are! Enter a name below and get to racing! If this is your first time playing, scroll down for instructions.</p>
+            </div>
+            <div class="input-wrapper">
+                <input type="text" placeholder="Username" class="username--field" v-model="username">
+                <div class="button--slide-left" >
+                    <button @click="startGame">
+                        <span>Race!</span>
+                    </button>
+                </div>
+            </div>
         </div>
-        <input type="text" placeholder="Username" class="username--field" v-model="username">
-        <div class="button--slide-left" >
-            <button @click="startGame">
-                <span>Race!</span>
-            </button>
+        <div class="launch-image1" :style="{backgroundImage:`url(${require('@/assets/launchpage3.jpg')})`}">
+            <h1 class="title">How to Play</h1>
+        </div>
+        <div id="particles-js">
+            <div class="text-wrapper">
+                <p class="explanation">When you start the game, you will be placed at a random IP address, shown in the top left corner. Your goal is to travel through the nameserver network to get to the target IP in the top right corner. At the bottom are different buttons showing the options you have to travel to. Be careful though, one wrong decision could send you on a path that doesn't connect to the target IP! The faster you arrive at your destination, the lower your points are, and the goal is to get as few points as possible. You can always return to the starting IP, but it will cost you some points and some precious time. Have fun!</p>
+            </div>
         </div>
        
         
@@ -25,7 +36,7 @@
         width: 100%;
         z-index: -1;
     }
-    .launch-image{
+    .launch-image1{
         width: 100%;
         background-size: cover;
         background-repeat: no-repeat;
@@ -60,30 +71,37 @@
     .explanation{
         margin-top: 10%;
         width: 80%;
-        margin-left: 5%;
+        margin-left: 10%;
+        margin-right: 10%;
         font-family: 'Montserrat', sans-serif;
         font-weight: 300;
         font-size: 18px;
         margin-bottom: 10%;
+    }
+    .input-wrapper{
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
     }
     .username--field{
         all: unset;
         border: none;
         border-bottom: 2px solid #222;
-        width: 50%;
+        width: 40%;
         height: 50px;
         font-family: 'Montserrat', sans-serif;
         font-weight: 300;
         font-size: 18px;
-        letter-spacing: 5%;
-        margin-left: 15%;
-        margin-bottom: 10%;
+        letter-spacing: 10%;
+        margin-bottom: 15%;
+        margin-right: 5%;
     }
     .username--field::placeholder{
         font-family: 'Montserrat', sans-serif;
         font-weight: 300;
         font-size: 18px;
-        letter-spacing: 5%;
+        letter-spacing: 10%;
         color: #222;
         margin-bottom: 10%;
     }
@@ -91,12 +109,12 @@
     --bg-color: #fff;
     --color: #fff;
     filter: invert(0.8);
-    display: inline-block;
+    display: flex;
     position: relative;
     cursor: pointer;
     border-radius: 500px;
     z-index: 1;
-    margin-left: 2.5%;
+    margin-bottom: 15%;
     }
     .button--slide-left button{
         all: unset;
@@ -133,10 +151,13 @@
     .button--slide-left:hover::after{
         clip-path: circle(100%);
     }
-    .leaderboard-title{
+    .instruction-title{
         font-family: 'Montserrat', sans-serif;
         font-weight: 600;
-        font-size: 18px;
+        font-size: 100px;
+        top: 15%;
+        left: auto;
+        text-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
 </style>
 <script type="text/javascript">
@@ -153,6 +174,6 @@
                     this.$router.push({"path":"/game"});
                 }
             }
-        }
+        },
     }
 </script>
